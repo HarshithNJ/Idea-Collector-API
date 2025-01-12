@@ -20,7 +20,7 @@ public class ideaService {
     public ResponseEntity<Object> addIdea(idea idea) {
         if(repository.existsByTitle(idea.getTitle())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("message", "Idea already exists with the title : " + idea.getTitle());
+            map.put("message", "Idea already exists with the title");
 
             return new ResponseEntity<Object>(map, HttpStatus.IM_USED);
         }else{
