@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ideaRepo extends JpaRepository<idea, Integer> {
 
+    boolean existsByTitle(String title);
+
 }
