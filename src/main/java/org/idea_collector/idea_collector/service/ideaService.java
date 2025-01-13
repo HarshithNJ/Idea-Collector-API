@@ -3,6 +3,7 @@ package org.idea_collector.idea_collector.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.idea_collector.idea_collector.dto.idea;
 import org.idea_collector.idea_collector.repository.ideaRepo;
@@ -79,6 +80,25 @@ public class ideaService {
             map.put("Data", ideas);
 
             return new ResponseEntity<Object>(map, HttpStatus.FOUND);
+        }
+    }
+
+    public ResponseEntity<Object> getIdeaByName(String title) {
+        Optional<idea> op = repository.findByTitle(title);
+
+        if (op.isPresent()) {
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("success", "Idea Found");
+            map.put("Data", op.get());
+
+            return new ResponseEntity<Object>(map, HttpStatus.FOUND);
+        }else{
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("error", "Idea not Found");
+
+            return new ResponseEntity<Object>(map, HttpStatus.NOT_FOUND);
         }
     }
     

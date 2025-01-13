@@ -2,7 +2,6 @@ package org.idea_collector.idea_collector.dto;
 
 import java.sql.Time;
 
-import org.hibernate.annotations.TimeZoneStorage;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
