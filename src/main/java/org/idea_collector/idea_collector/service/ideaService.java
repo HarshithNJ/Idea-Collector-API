@@ -21,14 +21,14 @@ public class ideaService {
     public ResponseEntity<Object> addIdea(idea idea) {
         if(repository.existsByTitle(idea.getTitle())) {
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("message", "Idea already exists with the title");
+            map.put("error", "Idea already exists with the title");
 
             return new ResponseEntity<Object>(map, HttpStatus.IM_USED);
         }else{
             repository.save(idea);
 
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("message", "Idea added successfully");
+            map.put("success", "Idea added successfully");
             map.put("Data", idea);
 
             return new ResponseEntity<Object>(map, HttpStatus.CREATED);
@@ -40,20 +40,46 @@ public class ideaService {
 
             if(repository.existsByTitle(idea.getTitle())) {
                 Map<String, Object> map = new HashMap<String, Object>();
-                map.put("message", "Idea already exists with the title");
+                map.put("error", "Idea already exists with the title");
     
                 return new ResponseEntity<Object>(map, HttpStatus.IM_USED);
             }
-            
+
         }
 
         repository.saveAll(ideas);
 
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("message", "Idea added successfully");
+            map.put("success", "Ideas added successfully");
             map.put("Data", ideas);
 
             return new ResponseEntity<Object>(map, HttpStatus.CREATED);
+    }
+
+
+
+
+
+
+
+
+    public ResponseEntity<Object> getAllIdeas() {
+        List<idea> ideas = repository.findAll();
+
+        if(ideas.isEmpty()){
+            
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("error", "No Ideas Found");
+
+            return new ResponseEntity<Object>(map, HttpStatus.NOT_FOUND);
+        }else{
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("success", "Ideas Found");
+            map.put("Data", ideas);
+
+            return new ResponseEntity<Object>(map, HttpStatus.FOUND);
+        }
     }
     
 }
