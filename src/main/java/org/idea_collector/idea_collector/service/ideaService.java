@@ -1,6 +1,7 @@
 package org.idea_collector.idea_collector.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.idea_collector.idea_collector.dto.idea;
@@ -32,6 +33,27 @@ public class ideaService {
 
             return new ResponseEntity<Object>(map, HttpStatus.CREATED);
         }
+    }
+
+    public ResponseEntity<Object> addMultipleIdeas(List<idea> ideas) {
+        for(idea idea : ideas){
+
+            if(repository.existsByTitle(idea.getTitle())) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("message", "Idea already exists with the title");
+    
+                return new ResponseEntity<Object>(map, HttpStatus.IM_USED);
+            }
+            
+        }
+
+        repository.saveAll(ideas);
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("message", "Idea added successfully");
+            map.put("Data", ideas);
+
+            return new ResponseEntity<Object>(map, HttpStatus.CREATED);
     }
     
 }

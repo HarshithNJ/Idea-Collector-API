@@ -1,5 +1,7 @@
 package org.idea_collector.idea_collector.controller;
 
+import java.util.List;
+
 import org.idea_collector.idea_collector.dto.idea;
 import org.idea_collector.idea_collector.service.ideaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,12 @@ public class ideaController {
     @PostMapping("/ideas")
     public ResponseEntity<Object> addIdea(@RequestBody idea idea){
         return service.addIdea(idea);
+    }
+
+    //Add Multiple Ideas
+    @PostMapping("/ideas/multiple")
+    public ResponseEntity<Object> addMultipleIdeas(@RequestBody List<idea> ideas){
+        return service.addMultipleIdeas(ideas);
     }
     
 }
