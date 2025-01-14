@@ -132,6 +132,17 @@ public class ideaService {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+    
     public ResponseEntity<Object> updateById(int id, idea idea) {
         if(repository.findById(id).isPresent()){
             idea i = repository.findById(id).get();

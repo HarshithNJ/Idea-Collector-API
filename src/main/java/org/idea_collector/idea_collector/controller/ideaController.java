@@ -7,6 +7,11 @@ import org.idea_collector.idea_collector.service.ideaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
+@Tag(name = "Idea Controller", description = "API for managing ideas")
 public class ideaController {
 
     @Autowired
@@ -26,13 +32,18 @@ public class ideaController {
     
 
     /*To add a new idea*/
-    //Add a Single Idea
+    @Operation(summary = "Add a new idea", description = "Add a new idea to the database")
+    @ApiResponse(responseCode = "201", description = "Idea added successfully")
+    @ApiResponse(responseCode = "226", description = "Idea already exists with the title")
     @PostMapping("/ideas")
     public ResponseEntity<Object> addIdea(@RequestBody idea idea){
         return service.addIdea(idea);
     }
 
-    //Add Multiple Ideas
+    
+    @Operation(summary = "Add Multiple ideas", description = "Add multiple ideas to the database")
+    @ApiResponse(responseCode = "201", description = "Ideas added successfully")
+    @ApiResponse(responseCode = "226", description = "Idea already exists with the title")
     @PostMapping("/ideas/multiple")
     public ResponseEntity<Object> addMultipleIdeas(@RequestBody List<idea> ideas){
         return service.addMultipleIdeas(ideas);
@@ -43,13 +54,17 @@ public class ideaController {
 
 
     /**To fetch idea Records*/
-    //Get All Ideas
+    @Operation(summary = "Get all ideas", description = "Get all ideas from the database")
+    @ApiResponse(responseCode = "302", description = "Ideas fetched successfully")
+    @ApiResponse(responseCode = "404", description = "Ideas not found")
     @GetMapping("/ideas")
     public ResponseEntity<Object> getAllIdeas(){
         return service.getAllIdeas();
     }
 
-    //Get Idea By Name
+    @Operation(summary = "Get idea by name", description = "Get an idea by name from the database")
+    @ApiResponse(responseCode = "302", description = "Idea fetched successfully")
+    @ApiResponse(responseCode = "404", description = "Idea not found")
     @GetMapping("/ideas/{title}")
     public ResponseEntity<Object> getIdeaByName(@PathVariable String title){
         return service.getIdeaByName(title);
@@ -64,6 +79,9 @@ public class ideaController {
 
 
     /* To Delete a Idea Record By Id */
+    @Operation(summary = "Delete a idea by id", description = "Delete a idea by id from the database")
+    @ApiResponse(responseCode = "200", description = "Idea deleted successfully")
+    @ApiResponse(responseCode = "404", description = "Idea not found")
     @DeleteMapping("/ideas/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable int id){
         return service.deleteById(id);
@@ -77,6 +95,9 @@ public class ideaController {
 
 
     /* To Update a Idea Record By Id */
+    @Operation(summary = "Update a idea by id", description = "Update a idea by id from the database")
+    @ApiResponse(responseCode = "200", description = "Idea updated successfully")
+    @ApiResponse(responseCode = "404", description = "Idea not found")
     @PatchMapping("/ideas/{id}")
     public ResponseEntity<Object> updateById(@PathVariable int id, @RequestBody idea idea){
         return service.updateById(id, idea);
