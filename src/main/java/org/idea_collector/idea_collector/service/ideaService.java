@@ -111,7 +111,7 @@ public class ideaService {
 
 
 
-    
+
 
     public ResponseEntity<Object> deleteById(int id) {
         Optional<idea> op = repository.findById(id);
@@ -122,6 +122,34 @@ public class ideaService {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("success", "Idea Deleted Successfully");
             map.put("Data", op.get());
+
+            return new ResponseEntity<Object>(map, HttpStatus.OK);
+        }else{
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("error", "Idea not Found");
+
+            return new ResponseEntity<Object>(map, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public ResponseEntity<Object> updateById(int id, idea idea) {
+        if(repository.findById(id).isPresent()){
+            idea i = repository.findById(id).get();
+
+            if(idea.getTitle() != null)
+                i.setTitle(idea.getTitle());
+            
+            if(idea.getDescription() != null)
+                i.setDescription(idea.getDescription());
+            
+            if(idea.getAddedAt() != null)
+                i.setAddedAt(idea.getAddedAt());
+            
+            repository.save(i);
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("success", "Idea Updated Successfully");
+            map.put("Data", i);
 
             return new ResponseEntity<Object>(map, HttpStatus.OK);
         }else{
